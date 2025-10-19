@@ -3,37 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TechStore - Productos Informáticos</title>
+    <title>TechForce - Productos Informáticos</title>
     <style>
+        /* --- General & Variables --- */
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --text-color: #333;
+            --bg-light: #f5f5f5;
+            --bg-dark: #333;
+            --white: #fff;
+            --shadow-light: rgba(0,0,0,0.1);
+            --shadow-dark: rgba(0,0,0,0.2);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 100px; /* Ajuste para el header fijo */
+        }
+
         body {
             font-family: 'Arial', sans-serif;
             line-height: 1.6;
-            color: #333;
-            background-color: #f5f5f5;
-        }
-
-        /* Header */
-        header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 1rem 0;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            color: var(--text-color);
+            background-color: var(--bg-light);
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
+        }
+        
+        /* --- Header --- */
+        header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: var(--white);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px var(--shadow-light);
+            transition: all 0.3s ease;
         }
 
         .header-content {
@@ -45,22 +63,36 @@
         .logo {
             font-size: 1.8rem;
             font-weight: bold;
+            animation: fadeInDown 0.5s ease-out;
         }
 
-        nav ul {
+        .main-nav ul {
             display: flex;
             list-style: none;
             gap: 2rem;
         }
 
-        nav a {
-            color: white;
+        .main-nav a {
+            color: var(--white);
             text-decoration: none;
             transition: color 0.3s ease;
+            position: relative;
+            padding-bottom: 5px;
+        }
+        
+        .main-nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #ffd700;
+            transition: width 0.4s ease;
         }
 
-        nav a:hover {
-            color: #ffd700;
+        .main-nav a:hover::after {
+            width: 100%;
         }
 
         .search-cart {
@@ -74,6 +106,11 @@
             border: none;
             border-radius: 25px;
             outline: none;
+            transition: width 0.4s ease-in-out;
+            width: 150px;
+        }
+        .search-box:focus {
+            width: 200px;
         }
 
         .cart-icon {
@@ -81,280 +118,21 @@
             padding: 0.5rem;
             border-radius: 50%;
             cursor: pointer;
-            transition:             <section class="products" id="productos">
-                ...
-                <div class="product-info">
-                    <h3>Laptop Gaming Pro X1</h3>
-                    ...
-                </div>
-                ...
-            </section> 0.3s ease;
+            transition: transform 0.3s ease, background 0.3s ease;
+            position: relative;
         }
 
         .cart-icon:hover {
+            transform: scale(1.1);
             background: rgba(255,255,255,0.3);
         }
 
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%23667eea" width="1200" height="600"/><circle fill="%23764ba2" cx="200" cy="150" r="100" opacity="0.3"/><circle fill="%23764ba2" cx="1000" cy="400" r="150" opacity="0.2"/></svg>');
-            background-size: cover;
-            background-position: center;
-            height: 70vh;
-            display: flex;
-            align-items: center;
-            color: white;
-            margin-top: 80px;
-        }
-
-        .hero-content {
-            text-align: center;
-        }
-
-        .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 12px 30px;
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
-            text-decoration: none;
-            border-radius: 25px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border: none;
-            cursor: pointer;
-            font-size: 1rem;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-
-        /* Categories Section */
-        .categories {
-            padding: 4rem 0;
-            background: white;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-            color: #333;
-        }
-
-        .categories-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-        }
-
-        .category-card {
-            background: white;
-            border-radius: 15px;
-            padding: 2rem;
-            text-align: center;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            cursor: pointer;
-        }
-
-        .category-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
-        }
-
-        .category-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            color: #667eea;
-        }
-
-        .category-card h3 {
-            margin-bottom: 1rem;
-            color: #333;
-        }
-
-        /* Products Section */
-        .products {
-            padding: 4rem 0;
-            background: #f8f9fa;
-        }
-
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .product-card {
-            background: white;
-            border-radius: 15px;
-            padding: 1.5rem;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
-        }
-
-        .product-image {
-            height: 200px;
-            background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
-            border-radius: 10px;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-            color: #999;
-        }
-
-        .product-info h3 {
-            margin-bottom: 0.5rem;
-            color: #333;
-        }
-
-        .product-price {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #667eea;
-            margin: 1rem 0;
-        }
-
-        .old-price {
-            text-decoration: line-through;
-            color: #999;
-            font-size: 1rem;
-            margin-right: 0.5rem;
-        }
-
-        /* Features Section */
-        .features {
-            padding: 4rem 0;
-            background: white;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .feature {
-            text-align: center;
-            padding: 2rem;
-        }
-
-        .feature-icon {
-            font-size: 3rem;
-            color: #667eea;
-            margin-bottom: 1rem;
-        }
-
-        /* Footer */
-        footer {
-            background: #333;
-            color: white;
-            padding: 3rem 0 1rem;
-        }
-
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .footer-section h3 {
-            margin-bottom: 1rem;
-            color: #667eea;
-        }
-
-        .footer-section a {
-            color: #ccc;
-            text-decoration: none;
-            display: block;
-            margin-bottom: 0.5rem;
-            transition: color 0.3s ease;
-        }
-
-        .footer-section a:hover {
-            color: #667eea;
-        }
-
-        .footer-bottom {
-            text-align: center;
-            padding-top: 2rem;
-            border-top: 1px solid #555;
-            color: #999;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                gap: 1rem;
-            }
-
-            nav ul {
-                flex-direction: column;
-                gap: 1rem;
-                text-align: center;
-            }
-
-            .hero h1 {
-                font-size: 2rem;
-            }
-
-            .search-cart {
-                flex-direction: column;
-                gap: 0.5rem;
-            }
-
-            .categories-grid,
-            .products-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .category-card,
-        .product-card {
-            animation: fadeInUp 0.6s ease-out;
-        }
-
-        /* Cart Counter */
         .cart-counter {
             position: absolute;
             top: -8px;
             right: -8px;
             background: #ff4757;
-            color: white;
+            color: var(--white);
             border-radius: 50%;
             width: 20px;
             height: 20px;
@@ -364,18 +142,329 @@
             justify-content: center;
         }
 
-        .cart-icon {
-            position: relative;
+        /* Menu Hamburguesa */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+        }
+
+        .menu-toggle .bar {
+            width: 25px;
+            height: 3px;
+            background-color: var(--white);
+            border-radius: 3px;
+            transition: all 0.3s ease-in-out;
+        }
+        
+        /* --- Hero Section --- */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1555774698-0b77e0ab235f?q=80&w=2070') no-repeat center center/cover;
+            height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--white);
+            margin-top: 80px; /* Espacio para el header fijo */
+        }
+        
+        .hero-content h1, .hero-content p, .hero-content .btn {
+             opacity: 0; /* Inicialmente oculto para animación */
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+            animation: slideInUp 0.8s ease-out 0.3s forwards;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            animation: slideInUp 0.8s ease-out 0.6s forwards;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 25px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+        
+        .hero .btn {
+            animation: slideInUp 0.8s ease-out 0.9s forwards;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        /* --- Sections --- */
+        .section {
+            padding: 4rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--text-color);
+            opacity: 0; /* Oculto para animación */
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        
+        .section-title.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- Categories & Products --- */
+        .categories { background: var(--white); }
+        .products { background: #f8f9fa; }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .category-card, .product-card {
+            background: var(--white);
+            border-radius: 15px;
+            box-shadow: 0 5px 20px var(--shadow-light);
+            text-align: center;
+            padding: 1.5rem;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease, box-shadow 0.3s ease;
+        }
+
+        .category-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px var(--shadow-dark);
+        }
+
+        /* --- Product Card Specific Styles --- */
+        .product-card:hover {
+            animation-play-state: paused; /* Pausa la animación flotante */
+            transform: translateY(-10px); /* Mantiene el efecto de elevación */
+            box-shadow: 0 15px 30px var(--shadow-dark);
+        }
+        
+        .category-card.visible, .product-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Activa la animación flotante una vez que la tarjeta es visible */
+        .product-card.visible {
+            animation: floatAnimation 6s ease-in-out infinite;
+        }
+
+        /* Retrasos para un efecto de onda */
+        .product-card:nth-child(2).visible { animation-delay: 1.5s; }
+        .product-card:nth-child(3).visible { animation-delay: 3s; }
+        .product-card:nth-child(4).visible { animation-delay: 0.8s; }
+
+
+        .category-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .category-icon img, .product-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .product-image {
+            height: 200px;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: #999;
+            overflow: hidden;
+        }
+
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin: 1rem 0;
+        }
+        
+        .old-price {
+            text-decoration: line-through;
+            color: #999;
+            font-size: 1rem;
+            margin-right: 0.5rem;
+        }
+        
+        /* --- Features Section --- */
+        .features { background: var(--white); }
+
+        .feature {
+            text-align: center;
+            padding: 2rem;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .feature.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        /* --- Footer --- */
+        footer {
+            background: var(--bg-dark);
+            color: var(--white);
+            padding: 3rem 0 1rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .footer-section a {
+            color: #ccc;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s ease, padding-left 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: var(--primary-color);
+            padding-left: 5px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #555;
+            color: #999;
+        }
+        
+        /* --- Animaciones Keyframes --- */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes floatAnimation {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0); }
+        }
+        
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex;
+            }
+            
+            .main-nav {
+                position: absolute;
+                top: 100%;
+                right: 0;
+                background: var(--bg-dark);
+                width: 100%;
+                flex-direction: column;
+                transform: translateX(100%);
+                transition: transform 0.3s ease-in-out;
+            }
+            
+            .main-nav.active {
+                transform: translateX(0);
+            }
+            
+            .main-nav ul {
+                flex-direction: column;
+                width: 100%;
+                text-align: center;
+                gap: 0;
+            }
+            
+            .main-nav li {
+                border-bottom: 1px solid #555;
+            }
+
+            .main-nav a {
+                display: block;
+                padding: 1.5rem;
+            }
+            
+            .main-nav a:hover {
+                background: rgba(255, 255, 255, 0.1);
+            }
+
+            .main-nav a::after {
+                display: none; /* Ocultar línea de hover en móvil */
+            }
+
+            .header-content {
+                flex-wrap: wrap;
+            }
+            
+            .search-cart {
+                width: 100%;
+                justify-content: center;
+                margin-top: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .hero p {
+                font-size: 1.1rem;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
     <header>
         <div class="container">
             <div class="header-content">
                 <div class="logo">🖥️ TechForce</div>
-                <nav>
+                
+                <nav class="main-nav">
                     <ul>
                         <li><a href="#inicio">Inicio</a></li>
                         <li><a href="#productos">Productos</a></li>
@@ -384,272 +473,183 @@
                         <li><a href="#contacto">Contacto</a></li>
                     </ul>
                 </nav>
+
                 <div class="search-cart">
-                    <input type="text" class="search-box" placeholder="Buscar productos...">
+                    <input type="text" class="search-box" placeholder="Buscar...">
                     <div class="cart-icon">
                         🛒
                         <span class="cart-counter">3</span>
                     </div>
                 </div>
+
+                <div class="menu-toggle">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
             </div>
         </div>
     </header>
 
-    <!-- Hero Section -->
     <section class="hero" id="inicio">
         <div class="container">
             <div class="hero-content">
                 <h1>La Mejor Tecnología a tu Alcance</h1>
-                <p>Descubre los productos informáticos más innovadores con la mejor calidad y precio</p>
+                <p>Descubre los productos informáticos más innovadores</p>
                 <a href="#productos" class="btn">Ver Productos</a>
             </div>
         </div>
     </section>
 
-    <!-- Categories Section -->
-    <section class="categories" id="categorias">
+    <section class="section categories" id="categorias">
         <div class="container">
             <h2 class="section-title">Nuestras Categorías</h2>
-            <div class="categories-grid">
+            <div class="grid">
                 <div class="category-card">
-                    <div class="category-icon">
-                         <img src="IMAGENES\LAPTOP LOQ.jpg" alt="Laptops" style="width:150px; height:150px;">
-                     </div>
-                    <h3>Laptops</h3>
-                    <p>Portátiles para trabajo, gaming y uso personal</p>
+                 <div class="category-icon"><img src="IMAGENES/LAPTOP LOQ.jpg" alt="Laptops"></div>                    <h3>Laptops</h3>
+                    <p>Potencia y portabilidad para cada necesidad</p>
                 </div>
                 <div class="category-card">
-                    <div class="category-icon">🖥️</div>
-                    <h3>Computadoras</h3>
+                 <div class="category-icon"><img src="IMAGENES/COMPUTADORA.jpg" alt="Computadoras"></div>                    <h3>Computadoras</h3>
                     <p>PCs de escritorio para todas las necesidades</p>
                 </div>
                 <div class="category-card">
-                    <div class="category-icon">📱</div>
-                    <h3>Móviles</h3>
-                    <p>Smartphones y tablets de última generación</p>
+                 <div class="category-icon"><img src="IMAGENES/TINTAS MIX.png" alt="Suministros"></div>                    <h3>Suministros</h3>
+                    <p>Tintas Toner y mas </p>
                 </div>
                 <div class="category-card">
-                    <div class="category-icon">🎮</div>
-                    <h3>Gaming</h3>
-                    <p>Equipos y accesorios para gamers</p>
-                </div>
-                <div class="category-card">
-                    <div class="category-icon">⚙️</div>
-                    <h3>Componentes</h3>
-                    <p>Hardware y piezas para PC</p>
-                </div>
-                <div class="category-card">
-                    <div class="category-icon">
-                        <img src="IMAGENES\TINTAS MIX.png" alt="Laptops" style="width:190px; height:190px;">
-                    </div>
-                    <h3>SUMINISTROS</h3>
-                    <p> Teclados, ratones, pad y más</p>
-                </div>
-                 <div class="category-card">
-                 <div class="category-icon">
-                    <img src="IMAGENES\IMPRESORAS MIX.jpg" alt="Laptops" style="width:190px; height:190px;">
-                </div>
-                 <h3>IMPRESORAS</h3>
-                 <p>Impresoras, fotocopiadoras, termicas </p>
+                  <div class="category-icon"><img src="IMAGENES/IMPRESORAS MIX.jpg" alt="Impresoras"></div>                    
+                  <h3>Impresoras</h3>
+                    <p>Impresoras multifuncionales</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Products Section -->
-    <section class="products" id="productos">
+    <section class="section products" id="productos">
         <div class="container">
             <h2 class="section-title">Productos Destacados</h2>
-            <div class="products-grid">
+            <div class="grid">
                 <div class="product-card">
-                    <div class="product-image">💻</div>
-                    <div class="product-info">
-                        <h3>Laptop Gaming Pro X1</h3>
-                        <p>Intel Core i7, 16GB RAM, RTX 4060</p>
-                        <div class="product-price">
-                            <span class="old-price">$1,299</span>
-                            $999
-                        </div>
-                        <button class="btn">Agregar al Carrito</button>
-                    </div>
+                   <div class="product-image"><img src="IMAGENES/PRODUCTOS/MSI.jpg" alt="Laptops"></div>
+                    <h3>Laptop gamer msi Sword 17 HX B14VFKG 17</h3>
+                    <p>Intel Core i7, 16GB RAM, RTX 4060</p>
+                    <div class="product-price"><span class="old-price">S/.7.500</span>S/.7000</div>
+                    <button class="btn add-to-cart">Agregar al Carrito</button>
                 </div>
                 <div class="product-card">
-                    <div class="product-image">📱</div>
-                    <div class="product-info">
-                        <h3>Smartphone Ultra 5G</h3>
-                        <p>128GB, Cámara 108MP, Pantalla 6.7"</p>
-                        <div class="product-price">$699</div>
-                        <button class="btn">Agregar al Carrito</button>
-                    </div>
+                    <div class="product-image"><img src="IMAGENES/PRODUCTOS/PC GAMER.jpg" alt="Computadoras"></div>
+                    <h3>PC Gamer Haku Red Plus Ryzen 5 8600G</h3>
+                    <p>AMD Ryzen 5, 16GB RAM, RTX 4070</p>
+                    <div class="product-price">S/.3000</div>
+                    <button class="btn add-to-cart">Agregar al Carrito</button>
                 </div>
                 <div class="product-card">
-                    <div class="product-image">🖥️</div>
-                    <div class="product-info">
-                        <h3>PC Workstation Elite</h3>
-                        <p>AMD Ryzen 9, 32GB RAM, RTX 4070</p>
-                        <div class="product-price">
-                            <span class="old-price">$1,899</span>
-                            $1,599
-                        </div>
-                        <button class="btn">Agregar al Carrito</button>
-                    </div>
+                    <div class="product-image"><img src="IMAGENES/PRODUCTOS/4360.jpg" alt="Impresoras"></div>
+                    <h3>EPSON L4360</h3>
+                    <p>Imprime,scaneer,copia</p>
+                    <div class="product-price">S/.900</div>
+                    <button class="btn add-to-cart">Agregar al Carrito</button>
                 </div>
                 <div class="product-card">
-                    <div class="product-image">🎧</div>
-                    <div class="product-info">
-                        <h3>Auriculares Gaming RGB</h3>
-                        <p>Sonido 7.1, Micrófono integrado</p>
-                        <div class="product-price">$89</div>
-                        <button class="btn">Agregar al Carrito</button>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="product-image">⌨️</div>
-                    <div class="product-info">
-                        <h3>Teclado Mecánico RGB</h3>
-                        <p>Switches Blue, Retroiluminado</p>
-                        <div class="product-price">$129</div>
-                        <button class="btn">Agregar al Carrito</button>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="product-image">🖱️</div>
-                    <div class="product-info">
-                        <h3>Mouse Gaming Wireless</h3>
-                        <p>12000 DPI, Ergonómico, RGB</p>
-                        <div class="product-price">$79</div>
-                        <button class="btn">Agregar al Carrito</button>
-                    </div>
+                    <div class="product-image"><img src="IMAGENES/PRODUCTOS/MAUSE.jpg" alt="Mouse"></div>
+                    <h3>Mouse Gaming </h3>
+                    <p>12000 DPI, Ergonómico, RGB</p>
+                    <div class="product-price">S/.250</div>
+                    <button class="btn add-to-cart">Agregar al Carrito</button>
                 </div>
             </div>
         </div>
     </section>
-
-    <!-- Features Section -->
-    <section class="features">
+    
+    <section class="section features" id="ofertas">
         <div class="container">
-            <h2 class="section-title">¿Por qué elegir TechStore?</h2>
-            <div class="features-grid">
+            <h2 class="section-title">¿Por qué elegir TechForce?</h2>
+            <div class="grid">
                 <div class="feature">
                     <div class="feature-icon">🚚</div>
                     <h3>Envío Gratuito</h3>
-                    <p>Envío gratis en compras mayores a $100. Entrega rápida y segura.</p>
+                    <p>Envío gratis en compras mayores a $100.</p>
                 </div>
                 <div class="feature">
                     <div class="feature-icon">🔧</div>
                     <h3>Soporte Técnico</h3>
-                    <p>Asistencia técnica 24/7 para resolver todas tus dudas.</p>
+                    <p>Asistencia técnica 24/7 para tus dudas.</p>
                 </div>
                 <div class="feature">
                     <div class="feature-icon">🛡️</div>
                     <h3>Garantía Extendida</h3>
-                    <p>Garantía de hasta 3 años en todos nuestros productos.</p>
+                    <p>Garantía de hasta 3 años en productos.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
     <footer id="contacto">
         <div class="container">
             <div class="footer-content">
-                <div class="footer-section">
-                    <h3>TechStore</h3>
-                    <p>Tu tienda de confianza para productos informáticos de calidad.</p>
-                </div>
-                <div class="footer-section">
-                    <h3>Productos</h3>
-                    <a href="#">Laptops</a>
-                    <a href="#">Computadoras</a>
-                    <a href="#">Smartphones</a>
-                    <a href="#">Gaming</a>
-                    <a href="#">Componentes</a>
-                </div>
-                <div class="footer-section">
-                    <h3>Servicio al Cliente</h3>
-                    <a href="#">Contacto</a>
-                    <a href="#">Soporte</a>
-                    <a href="#">Garantías</a>
-                    <a href="#">Devoluciones</a>
-                </div>
-                <div class="footer-section">
-                    <h3>Síguenos</h3>
-                    <a href="#">📘 Facebook</a>
-                    <a href="#">📷 Instagram</a>
-                    <a href="#">🐦 Twitter</a>
-                    <a href="#">📺 YouTube</a>
-                </div>
+                <div class="footer-section"><h3>TechForce</h3><p>Tu tienda de confianza.</p></div>
+                <div class="footer-section"><h3>Productos</h3><a href="#">Laptops</a><a href="#">Computadoras</a><a href="#">Gaming</a></div>
+                <div class="footer-section"><h3>Servicio</h3><a href="#">Contacto</a><a href="#">Soporte</a><a href="#">Garantías</a></div>
+                <div class="footer-section"><h3>Síguenos</h3><a href="#">📘 Facebook</a><a href="#">📷 Instagram</a><a href="#">🐦 Twitter</a></div>
             </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 TechStore. Todos los derechos reservados.</p>
-            </div>
+            <div class="footer-bottom"><p>&copy; 2025 TechForce. Todos los derechos reservados.</p></div>
         </div>
     </footer>
 
     <script>
-        // Simple cart functionality
-        let cartCount = 3;
-        const cartButtons = document.querySelectorAll('.btn');
-        const cartCounter = document.querySelector('.cart-counter');
-        
-        cartButtons.forEach(button => {
-            if (button.textContent === 'Agregar al Carrito') {
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // --- Menú Hamburguesa ---
+            const menuToggle = document.querySelector('.menu-toggle');
+            const mainNav = document.querySelector('.main-nav');
+            
+            menuToggle.addEventListener('click', () => {
+                mainNav.classList.toggle('active');
+            });
+            
+            // --- Funcionalidad del Carrito ---
+            let cartCount = 3;
+            const cartButtons = document.querySelectorAll('.add-to-cart');
+            const cartCounter = document.querySelector('.cart-counter');
+
+            cartButtons.forEach(button => {
                 button.addEventListener('click', function() {
                     cartCount++;
                     cartCounter.textContent = cartCount;
+                    
                     button.textContent = 'Agregado ✓';
                     button.style.background = '#28a745';
+                    button.disabled = true;
+
                     setTimeout(() => {
                         button.textContent = 'Agregar al Carrito';
-                        button.style.background = 'linear-gradient(45deg, #667eea, #764ba2)';
+                        button.style.background = ''; // Vuelve al estilo original
+                        button.disabled = false;
                     }, 2000);
                 });
-            }
-        });
-
-        // Smooth scrolling
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
             });
-        });
+            
+            // --- Animaciones al hacer Scroll ---
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
 
-        // Search functionality
-        const searchBox = document.querySelector('.search-box');
-        searchBox.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                alert('Función de búsqueda: "' + this.value + '"');
-            }
-        });
+            const observerCallback = (entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target); // Animar solo una vez
+                    }
+                });
+            };
 
-        // Animation on scroll
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
+            const observer = new IntersectionObserver(observerCallback, observerOptions);
 
-        const observer = new IntersectionObserver(function(entries) {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
-
-        // Observe elements for animation
-        document.querySelectorAll('.category-card, .product-card, .feature').forEach(el => {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(30px)';
-            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-            observer.observe(el);
+            const elementsToAnimate = document.querySelectorAll('.section-title, .category-card, .product-card, .feature');
+            elementsToAnimate.forEach(el => observer.observe(el));
         });
     </script>
 </body>
