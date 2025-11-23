@@ -171,56 +171,63 @@
         }
         
         /* --- Hero Section --- */
-        .hero {
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1555774698-0b77e0ab235f?q=80&w=2070') no-repeat center center/cover;
-            height: 80vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: var(--white);
-            margin-top: 80px; /* Espacio para el header fijo */
-        }
-        
-        .hero-content h1, .hero-content p, .hero-content .btn {
-             opacity: 0; /* Inicialmente oculto para animación */
-        }
+        /* --- Hero Section - MODIFICADO para VIDEO --- */
+.hero {
+    /* Eliminamos la propiedad 'background' que contenía la imagen estática */
+    /* Mantendremos el degradado oscuro (overlay) usando un pseudo-elemento */
+    height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--white);
+    margin-top: 80px;
+    position: relative; /* Importante para posicionar el video */
+    overflow: hidden; /* Para asegurar que el video no se salga */
+}
 
-        .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
-            animation: slideInUp 0.8s ease-out 0.3s forwards;
-        }
+/* Capa Oscura (Overlay) sobre el video */
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* El mismo degradado oscuro que tenías para el overlay */
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)); 
+    z-index: 2; /* Encima del video, debajo del contenido de texto */
+}
 
-        .hero p {
-            font-size: 1.3rem;
-            margin-bottom: 2rem;
-            animation: slideInUp 0.8s ease-out 0.6s forwards;
-        }
+/* Contenedor del Video - Posición Absoluta */
+.video-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 1; /* Detrás del overlay y del texto */
+}
 
-        .btn {
-            display: inline-block;
-            padding: 12px 30px;
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            color: var(--white);
-            text-decoration: none;
-            border-radius: 25px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border: none;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: bold;
-        }
-        
-        .hero .btn {
-            animation: slideInUp 0.8s ease-out 0.9s forwards;
-        }
+/* El Video en sí - Asegura que cubra todo el espacio y se centre */
+#hero-video {
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    object-fit: cover; /* Clave para asegurar que cubra toda la sección sin distorsión */
+}
 
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
+/* Aseguramos que el contenido del hero (texto/botón) esté en la parte superior */
+.hero .container {
+    position: relative;
+    z-index: 3; /* Asegura que el contenido quede visible sobre el overlay */
+}
 
         /* --- Sections --- */
         .section {
@@ -580,15 +587,22 @@
         </div>
     </header>
 
-    <section class="hero" id="inicio">
-        <div class="container">
-            <div class="hero-content">
-                <h1>La Mejor Tecnología a tu Alcance</h1>
-                <p>Descubre los productos informáticos más innovadores</p>
-                <a href="#productos" class="btn">Ver Productos</a>
-            </div>
+   <section class="hero" id="inicio">
+    <div class="video-background">
+        <video autoplay muted loop playsinline id="hero-video">
+            <source src="VIDEO/LOGO VID.mp4" type="video/mp4">
+            Tu navegador no soporta el elemento de video.
+        </video>
+    </div>
+    
+    <div class="container">
+        <div class="hero-content">
+            <h1>La Mejor Tecnología a tu Alcance</h1>
+            <p>Descubre los productos informáticos más innovadores</p>
+            <a href="#productos" class="btn">Ver Productos</a>
         </div>
-    </section>
+    </div>
+ </section>
 
     <section class="section categories" id="categorias">
         <div class="container">
