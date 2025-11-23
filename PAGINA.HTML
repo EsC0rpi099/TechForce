@@ -148,6 +148,7 @@
             flex-direction: column;
             cursor: pointer;
             gap: 5px;
+            z-index: 1010; /* Asegurar que esté encima del menú colapsado */
         }
 
         .menu-toggle .bar {
@@ -156,6 +157,17 @@
             background-color: var(--white);
             border-radius: 3px;
             transition: all 0.3s ease-in-out;
+        }
+
+        /* Animación de Hamburguesa a X */
+        .menu-toggle.active .bar:nth-child(2) {
+            opacity: 0;
+        }
+        .menu-toggle.active .bar:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+        .menu-toggle.active .bar:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
         }
         
         /* --- Hero Section --- */
@@ -393,8 +405,74 @@
             50% { transform: translateY(-15px); }
             100% { transform: translateY(0); }
         }
+
+        /* ==================================== */
+        /* --- ESTILOS DE VENTANA FLOTANTE (MODAL) --- */
+        /* ==================================== */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            z-index: 2000;
+        }
+
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background-color: var(--white);
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
+            position: relative;
+        }
         
-        /* --- Responsive Design --- */
+        .modal.active .modal-content {
+            transform: scale(1);
+        }
+        
+        .modal-close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--text-color);
+            cursor: pointer;
+            border: none;
+            background: none;
+            transition: color 0.2s ease;
+        }
+        
+        .modal-close-btn:hover {
+            color: #ff4757;
+        }
+        
+        .modal-content h3 {
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+        }
+        
+        /* Puedes agregar más estilos para los elementos internos del carrito aquí */
+        
+        /* ==================================== */
+        /* --- Responsive Design (Existente y mejorado) --- */
+        /* ==================================== */
         @media (max-width: 768px) {
             .menu-toggle {
                 display: flex;
@@ -407,12 +485,13 @@
                 background: var(--bg-dark);
                 width: 100%;
                 flex-direction: column;
-                transform: translateX(100%);
+                /* El menú inicialmente está fuera de la vista a la derecha */
+                transform: translateX(100%); 
                 transition: transform 0.3s ease-in-out;
             }
             
             .main-nav.active {
-                transform: translateX(0);
+                transform: translateX(0); /* Se desliza a la vista */
             }
             
             .main-nav ul {
@@ -445,8 +524,18 @@
             
             .search-cart {
                 width: 100%;
-                justify-content: center;
+                justify-content: space-around; /* Mejor espaciado en la línea inferior */
                 margin-top: 1rem;
+                padding-bottom: 0.5rem;
+                border-top: 1px solid rgba(255, 255, 255, 0.2);
+            }
+            
+            .search-box {
+                width: 80%; /* Hacer la caja de búsqueda más ancha en móvil */
+                max-width: 300px;
+            }
+            .search-box:focus {
+                width: 90%;
             }
 
             .hero h1 {
@@ -476,13 +565,13 @@
 
                 <div class="search-cart">
                     <input type="text" class="search-box" placeholder="Buscar...">
-                    <div class="cart-icon">
+                    <div class="cart-icon" id="open-cart-modal">
                         🛒
                         <span class="cart-counter">3</span>
                     </div>
                 </div>
 
-                <div class="menu-toggle">
+                <div class="menu-toggle" id="menu-toggle">
                     <span class="bar"></span>
                     <span class="bar"></span>
                     <span class="bar"></span>
@@ -506,20 +595,20 @@
             <h2 class="section-title">Nuestras Categorías</h2>
             <div class="grid">
                 <div class="category-card">
-                 <div class="category-icon"><img src="IMAGENES/LAPTOP LOQ.jpg" alt="Laptops"></div>                    <h3>Laptops</h3>
+                   <div class="category-icon"><img src="IMAGENES/LAPTOP LOQ.jpg" alt="Laptops"></div>                    <h3>Laptops</h3>
                     <p>Potencia y portabilidad para cada necesidad</p>
                 </div>
                 <div class="category-card">
-                 <div class="category-icon"><img src="IMAGENES/COMPUTADORA.jpg" alt="Computadoras"></div>                    <h3>Computadoras</h3>
+                   <div class="category-icon"><img src="IMAGENES/COMPUTADORA.jpg" alt="Computadoras"></div>                    <h3>Computadoras</h3>
                     <p>PCs de escritorio para todas las necesidades</p>
                 </div>
                 <div class="category-card">
-                 <div class="category-icon"><img src="IMAGENES/TINTAS MIX.png" alt="Suministros"></div>                    <h3>Suministros</h3>
+                   <div class="category-icon"><img src="IMAGENES/TINTAS MIX.png" alt="Suministros"></div>                    <h3>Suministros</h3>
                     <p>Tintas Toner y mas </p>
                 </div>
                 <div class="category-card">
-                  <div class="category-icon"><img src="IMAGENES/IMPRESORAS MIX.jpg" alt="Impresoras"></div>                    
-                  <h3>Impresoras</h3>
+                    <div class="category-icon"><img src="IMAGENES/IMPRESORAS MIX.jpg" alt="Impresoras"></div>                    
+                    <h3>Impresoras</h3>
                     <p>Impresoras multifuncionales</p>
                 </div>
             </div>
@@ -597,18 +686,80 @@
         </div>
     </footer>
 
+    <div id="cart-modal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close-btn" id="close-cart-modal">&times;</button>
+            <h3>🛒 Tu Carrito de Compras</h3>
+            <p id="modal-cart-count">Actualmente tienes **3** artículos en tu carrito.</p>
+            <div style="margin-top: 20px;">
+                <p>Producto 1: S/.7000</p>
+                <p>Producto 2: S/.3000</p>
+                <p>Producto 3: S/.900</p>
+                <hr>
+                <p style="font-weight: bold; font-size: 1.2rem;">Total Estimado: S/.10.900</p>
+            </div>
+            <button class="btn" style="margin-top: 20px; width: 100%;">Finalizar Compra</button>
+        </div>
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             
-            // --- Menú Hamburguesa ---
-            const menuToggle = document.querySelector('.menu-toggle');
+            // --- Menú Hamburguesa LÓGICA ---
+            const menuToggle = document.getElementById('menu-toggle');
             const mainNav = document.querySelector('.main-nav');
+            const navLinks = document.querySelectorAll('.main-nav a'); // Para cerrar al hacer clic
             
             menuToggle.addEventListener('click', () => {
                 mainNav.classList.toggle('active');
+                menuToggle.classList.toggle('active'); // Para la animación de X
             });
             
-            // --- Funcionalidad del Carrito ---
+            // Cerrar menú al hacer clic en un enlace (solo en móvil)
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    if (window.innerWidth <= 768) {
+                        mainNav.classList.remove('active');
+                        menuToggle.classList.remove('active');
+                    }
+                });
+            });
+
+
+            // --- Ventana Flotante (Modal) LÓGICA ---
+            const cartModal = document.getElementById('cart-modal');
+            const openCartBtn = document.getElementById('open-cart-modal');
+            const closeCartBtn = document.getElementById('close-cart-modal');
+            const modalCartCount = document.getElementById('modal-cart-count');
+
+            // Abrir Modal
+            openCartBtn.addEventListener('click', () => {
+                cartModal.classList.add('active');
+                // Actualiza el texto del modal con el conteo actual
+                modalCartCount.textContent = `Actualmente tienes ${cartCount} artículos en tu carrito.`;
+            });
+
+            // Cerrar Modal
+            function closeModal() {
+                cartModal.classList.remove('active');
+            }
+            
+            closeCartBtn.addEventListener('click', closeModal);
+            // Cerrar si se hace clic fuera del contenido del modal
+            cartModal.addEventListener('click', (e) => {
+                if (e.target.id === 'cart-modal') {
+                    closeModal();
+                }
+            });
+            // Cerrar con tecla ESC
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && cartModal.classList.contains('active')) {
+                    closeModal();
+                }
+            });
+
+
+            // --- Funcionalidad del Carrito (Mejorada para Modal) ---
             let cartCount = 3;
             const cartButtons = document.querySelectorAll('.add-to-cart');
             const cartCounter = document.querySelector('.cart-counter');
@@ -630,7 +781,7 @@
                 });
             });
             
-            // --- Animaciones al hacer Scroll ---
+            // --- Animaciones al hacer Scroll (Ya existente) ---
             const observerOptions = {
                 root: null,
                 rootMargin: '0px',
